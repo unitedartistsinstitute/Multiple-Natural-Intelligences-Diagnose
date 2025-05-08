@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNIT - Multiple Natural Intelligences Diagnose</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-accent: #f8f9fa;
+            --text-color: #2c3e50;
+            --light-text: #7f8c8d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+            line-height: 1.6;
+            background-color: var(--light-accent);
+            color: var(--text-color);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .question-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .question-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-3px);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: inherit;
+            background-color: var(--white);
+            transition: border 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .results-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+        }
+
+        .intelligence-card {
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--secondary-color);
+            background: var(--light-accent);
+            border-radius: 8px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .dominant-intelligence {
+            border-color: var(--accent-color);
+            background: #fff5f5;
+        }
+
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), #2980b9);
+            border-radius: 5px;
+            width: 0;
+            transition: width 1s ease;
+        }
+
+        .signature {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .signature a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .signature a:hover {
+            color: var(--secondary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scale-key {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .scale-item {
+            background: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+        }
+
+        .instructions {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--light-text);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 15px 100px;
+            }
+            .header {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .question-card {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Multiple Natural Intelligences Diagnose</h1>
+        <div class="instructions">
+            <p>Based on Howard Gardner's Theory of Multiple Intelligences</p>
+            <p>For each statement, select your response using the following scale:</p>
+            <div class="scale-key">
+                <div class="scale-item">1 = Strongly Agree</div>
+                <div class="scale-item">2 = Agree</div>
+                <div class="scale-item">3 = Neutral</div>
+                <div class="scale-item">4 = Disagree</div>
+                <div class="scale-item">5 = Strongly Disagree</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-grid" id="testContainer"></div>
+
+    <button class="btn" onclick="calculateResults()">Get My Intelligence Profile</button>
+    
+    <div class="results-section" id="results"></div>
+
+    <div class="signature">
+                &copy; 2025 Daniel Rojas :: TΣʃ :: | &#9993; <a href="unitedartistsinstitute@gmail.com">unitedartistsinstitute@gmail.com</a>
+            </div>
+
+    <script>
+        // Complete question set with category mappings
+        const questions = [
+            { text: "I like discovering new things about myself", category: "Intrapersonal" },
+            { text: "I can play a musical instrument", category: "Musical" },
+            { text: "I find it easiest to solve problems when I am doing something physical", category: "Bodily-Kinesthetic" },
+            { text: "I often have a song or piece of music in my head", category: "Musical" },
+            { text: "I find budgeting and managing my money easy", category: "Logical-Mathematical" },
+            { text: "I find it easy to make up stories", category: "Linguistic" },
+            { text: "I have always been physically well co-ordinated", category: "Bodily-Kinesthetic" },
+            { text: "When talking to someone, I tend to listen to the words they use not just what they mean", category: "Linguistic" },
+            { text: "I enjoy crosswords, word searches or other word puzzles", category: "Linguistic" },
+            { text: "I don't like ambiguity, I like things to be clear", category: "Logical-Mathematical" },
+            { text: "I enjoy logic puzzles", category: "Logical-Mathematical" },
+            { text: "I like to meditate", category: "Intrapersonal" },
+            { text: "Music is very important to me", category: "Musical" },
+            { text: "I am a convincing liar", category: "Interpersonal" },
+            { text: "I play a sport or dance", category: "Bodily-Kinesthetic" },
+            { text: "I am very interested in psychometrics (personality testing) and IQ tests", category: "Intrapersonal" },
+            { text: "People behaving irrationally annoy me", category: "Logical-Mathematical" },
+            { text: "I find that the music that appeals to me is often based on how I feel emotionally", category: "Musical" },
+            { text: "I am a very social person and like being with other people", category: "Interpersonal" },
+            { text: "I like to be systematic and thorough", category: "Logical-Mathematical" },
+            { text: "I find graphs and charts easy to understand", category: "Spatial-Visual" },
+            { text: "I can throw things well - darts, skimming pebbles, frisbees, etc", category: "Bodily-Kinesthetic" },
+            { text: "I find it easy to remember quotes or phrases", category: "Linguistic" },
+            { text: "I can always recognise places that I have been before, even when I was very young", category: "Spatial-Visual" },
+            { text: "I enjoy a wide variety of musical styles", category: "Musical" },
+            { text: "When I am concentrating I tend to doodle", category: "Spatial-Visual" },
+            { text: "I could manipulate people if I choose to", category: "Interpersonal" },
+            { text: "I can predict my feelings and behaviors in certain situations fairly accurately", category: "Intrapersonal" },
+            { text: "I find mental arithmetic easy", category: "Logical-Mathematical" },
+            { text: "I can identify most sounds without seeing what causes them", category: "Musical" },
+            { text: "At school one of my favorite subjects is / was English", category: "Linguistic" },
+            { text: "I like to think through a problem carefully, considering all the consequences", category: "Logical-Mathematical" },
+            { text: "I enjoy debates and discussions", category: "Linguistic" },
+            { text: "I love adrenaline sports and scary rides", category: "Bodily-Kinesthetic" },
+            { text: "I enjoy individual sports best", category: "Intrapersonal" },
+            { text: "I care about how those around me feel", category: "Interpersonal" },
+            { text: "My house is full of pictures and photographs", category: "Spatial-Visual" },
+            { text: "I enjoy and am good at making things - I'm good with my hands", category: "Bodily-Kinesthetic" },
+            { text: "I like having music on in the background", category: "Musical" },
+            { text: "I find it easy to remember telephone numbers", category: "Logical-Mathematical" },
+            { text: "I set myself goals and plans for the future", category: "Intrapersonal" },
+            { text: "I am a very tactile person", category: "Bodily-Kinesthetic" },
+            { text: "I can tell easily whether someone likes me or dislikes me", category: "Interpersonal" },
+            { text: "I can easily imagine how an object would look from another perspective", category: "Spatial-Visual" },
+            { text: "I never use instructions for flat-pack furniture", category: "Spatial-Visual" },
+            { text: "I find it easy to talk to new people", category: "Interpersonal" },
+            { text: "To learn something new, I need to just get on and try it", category: "Bodily-Kinesthetic" },
+            { text: "I often see clear images when I close my eyes", category: "Spatial-Visual" },
+            { text: "I don't use my fingers when I count", category: "Logical-Mathematical" },
+            { text: "I often talk to myself – out loud or in my head", category: "Intrapersonal" },
+            { text: "At school I loved / love music lessons", category: "Musical" },
+            { text: "When I am abroad, I find it easy to pick up the basics of another language", category: "Linguistic" },
+            { text: "I find ball games easy and enjoyable", category: "Bodily-Kinesthetic" },
+            { text: "My favorite subject at school is / was maths", category: "Logical-Mathematical" },
+            { text: "I always know how I am feeling", category: "Intrapersonal" },
+            { text: "I am realistic about my strengths and weaknesses", category: "Intrapersonal" },
+            { text: "I keep a diary", category: "Intrapersonal" },
+            { text: "I am very aware of other people's body language", category: "Interpersonal" },
+            { text: "My favorite subject at school was / is art", category: "Spatial-Visual" },
+            { text: "I find pleasure in reading", category: "Linguistic" },
+            { text: "I can read a map easily", category: "Spatial-Visual" },
+            { text: "It upsets me to see someone cry and not be able to help", category: "Interpersonal" },
+            { text: "I am good at solving disputes between others", category: "Interpersonal" },
+            { text: "I have always dreamed of being a musician or singer", category: "Musical" },
+            { text: "I prefer team sports", category: "Interpersonal" },
+            { text: "Singing makes me feel happy", category: "Musical" },
+            { text: "I never get lost when I am on my own in a new place", category: "Spatial-Visual" },
+            { text: "If I am learning how to do something, I like to see drawings and diagrams of how it works", category: "Spatial-Visual" },
+            { text: "I am happy spending time alone", category: "Intrapersonal" },
+            { text: "My friends always come to me for emotional support and advice", category: "Interpersonal" }
+        ].map((q, index) => ({ ...q, score: 0, id: index + 1 }));
+
+        // Intelligence type explanations
+        const intelligenceExplanations = {
+            "Linguistic": "You have a strong ability to use words effectively, both in writing and speaking. You likely enjoy reading, writing, telling stories, and playing word games.",
+            "Logical-Mathematical": "You excel in reasoning, recognizing patterns, and logically analyzing problems. You probably enjoy strategy games, experiments, and solving mathematical problems.",
+            "Musical": "You have a natural ability to produce and appreciate rhythm, pitch, and timbre. You likely enjoy singing, playing instruments, and easily remember songs and melodies.",
+            "Bodily-Kinesthetic": "You use your body effectively to solve problems or create products. You likely enjoy physical activities, hands-on learning, and have excellent hand-eye coordination.",
+            "Spatial-Visual": "You think in pictures and images, and have the ability to visualize accurately and abstractly. You probably enjoy art, design, maps, and visual presentations.",
+            "Interpersonal": "You understand and interact effectively with others. You likely enjoy group activities, are skilled at communicating, and are sensitive to others' moods and feelings.",
+            "Intrapersonal": "You have a deep understanding of yourself, your strengths and weaknesses. You likely enjoy self-reflection, journaling, and prefer working independently."
+        };
+
+        // Initialize test
+        function initializeTest() {
+            const container = document.getElementById('testContainer');
+            
+            questions.forEach((q) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <p><strong>${q.id}.</strong> ${q.text}</p>
+                    <select onchange="updateScore(${q.id - 1}, this.value)">
+                        <option value="0">Select your response</option>
+                        <option value="1">1 - Strongly Agree</option>
+                        <option value="2">2 - Agree</option>
+                        <option value="3">3 - Neutral</option>
+                        <option value="4">4 - Disagree</option>
+                        <option value="5">5 - Strongly Disagree</option>
+                    </select>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Update question score
+        function updateScore(index, value) {
+            questions[index].score = parseInt(value);
+        }
+
+        // Calculate results
+        function calculateResults() {
+            // Check if all questions are answered
+            const unanswered = questions.filter(q => q.score === 0);
+            if (unanswered.length > 0) {
+                alert(`Please answer all questions before viewing results. You have ${unanswered.length} unanswered questions.`);
+                return;
+            }
+
+            const results = {
+                "Linguistic": 0,
+                "Logical-Mathematical": 0,
+                "Musical": 0,
+                "Bodily-Kinesthetic": 0,
+                "Spatial-Visual": 0,
+                "Interpersonal": 0,
+                "Intrapersonal": 0
+            };
+
+            // Calculate the max possible score for each category
+            const maxScores = {};
+            for (const category in results) {
+                maxScores[category] = questions.filter(q => q.category === category).length * 5;
+            }
+
+            // Calculate actual scores
+            questions.forEach(q => {
+                results[q.category] += q.score;
+            });
+
+            // Calculate percentages to normalize scores
+            const percentages = {};
+            for (const category in results) {
+                percentages[category] = (1 - (results[category] / maxScores[category])) * 100;
+            }
+
+            displayResults(results, maxScores, percentages);
+        }
+
+        // Display results
+        function displayResults(results, maxScores, percentages) {
+            const resultsDiv = document.getElementById('results');
+            let html = '<h2>Your Multiple Intelligences Profile</h2>';
+            html += '<p>Your results show your relative strengths across the seven intelligences:</p>';
+            
+            // Sort categories by percentage (highest first)
+            const sortedCategories = Object.keys(percentages).sort((a, b) => percentages[b] - percentages[a]);
+            
+            // Display all scores with progress bars
+            sortedCategories.forEach(category => {
+                html += `
+                    <div class="intelligence-card ${percentages[category] >= 70 ? 'dominant-intelligence' : ''}">
+                        <h3>${category} Intelligence</h3>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Strength: ${Math.round(percentages[category])}%</span>
+                                <span>${results[category]}/${maxScores[category]} points</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${percentages[category]}%"></div>
+                            </div>
+                        </div>
+                        <p>${intelligenceExplanations[category]}</p>
+                    </div>
+                `;
+            });
+            
+            // Add section about dominant intelligences
+            const dominantIntelligences = sortedCategories.slice(0, 3);
+            html += `
+                <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <h3>Your Top Three Intelligences</h3>
+                    <p>These represent your strongest natural abilities:</p>
+                    <ol style="margin-top: 15px;">
+                        ${dominantIntelligences.map((cat, i) => `
+                            <li style="margin-bottom: 15px;">
+                                <strong>${cat}</strong> (${Math.round(percentages[cat])}%)
+                                <div style="font-size: 0.9em; color: #555;">${intelligenceExplanations[cat]}</div>
+                            </li>
+                        `).join('')}
+                    </ol>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html;
+            
+            // Animate progress bars
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.width = bar.style.width;
+                });
+            }, 100);
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Start the test
+        initializeTest();
+    </script>
+</body>
+</html>
